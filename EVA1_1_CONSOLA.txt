@@ -1,0 +1,166 @@
+MySQL Shell 8.0.12
+
+Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+
+ MySQL  SQL > \connect -c root@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 5.5.61 MySQL Community Server (GPL)
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306  SQL > select version();
++-----------+
+| version() |
++-----------+
+| 5.5.61    |
++-----------+
+1 row in set (0.0008 sec)
+
+ MySQL  localhost:3306  SQL > selec current_date;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selec current_date' at line 1
+
+ MySQL  localhost:3306  SQL > select current_date;
++--------------+
+| current_date |
++--------------+
+| 2018-08-27   |
++--------------+
+1 row in set (0.0006 sec)
+
+ MySQL  localhost:3306  SQL > select now();
++---------------------+
+| now()               |
++---------------------+
+| 2018-08-27 12:28:39 |
++---------------------+
+1 row in set (0.0138 sec)
+
+ MySQL  localhost:3306  SQL > selec version(), current_date, now();
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selec version(), current_date, now()' at line 1
+
+ MySQL  localhost:3306  SQL > select version(), current_date, now();
++-----------+--------------+---------------------+
+| version() | current_date | now()               |
++-----------+--------------+---------------------+
+| 5.5.61    | 2018-08-27   | 2018-08-27 12:30:01 |
++-----------+--------------+---------------------+
+1 row in set (0.0002 sec)
+
+ MySQL  localhost:3306  SQL > select
+                          ... version(),
+                          ... current_Date,
+                          ... now();
++-----------+--------------+---------------------+
+| version() | current_Date | now()               |
++-----------+--------------+---------------------+
+| 5.5.61    | 2018-08-27   | 2018-08-27 12:30:31 |
++-----------+--------------+---------------------+
+1 row in set (0.0002 sec)
+
+ MySQL  localhost:3306  SQL > select version() as version;
++---------+
+| version |
++---------+
+| 5.5.61  |
++---------+
+1 row in set (0.0002 sec)
+
+ MySQL  localhost:3306  SQL > select
+                          ... Version() as version,
+                          ... now() as now;
++---------+---------------------+
+| version | now                 |
++---------+---------------------+
+| 5.5.61  | 2018-08-27 12:31:49 |
++---------+---------------------+
+1 row in set (0.0002 sec)
+
+ MySQL  localhost:3306  SQL > select version() as perrito;
++---------+
+| perrito |
++---------+
+| 5.5.61  |
++---------+
+1 row in set (0.0003 sec)
+
+ MySQL  localhost:3306  SQL > select version() as hola ana;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ana' at line 1
+
+ MySQL  localhost:3306  SQL > select version() as holaana;
++---------+
+| holaana |
++---------+
+| 5.5.61  |
++---------+
+1 row in set (0.0002 sec)
+
+ MySQL  localhost:3306  SQL > select sin(Pi()), (4+6)/2;
++------------------------+---------+
+| sin(Pi())              | (4+6)/2 |
++------------------------+---------+
+| 1.2246467991473532e-16 |  5.0000 |
++------------------------+---------+
+1 row in set (0.0357 sec)
+
+ MySQL  localhost:3306  SQL > show database
+                          ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database' at line 1
+
+ MySQL  localhost:3306  SQL > show database;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database' at line 1
+
+ MySQL  localhost:3306  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+4 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306  SQL > \use test
+Default schema set to `test`.
+Fetching table and column names from `test` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306  test  SQL > show tables;
+Empty set (0.0005 sec)
+
+ MySQL  localhost:3306  test  SQL > desc test;
+ERROR: 1146 (42S02): Table 'test.test' doesn't exist
+
+ MySQL  localhost:3306  test  SQL > desc test;
+ERROR: 1146 (42S02): Table 'test.test' doesn't exist
+
+ MySQL  localhost:3306  test  SQL > select * from mysql.user;
++-----------+------+-------------------------------------------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+--------+-----------------------+
+| Host      | User | Password                                  | Select_priv | Insert_priv | Update_priv | Delete_priv | Create_priv | Drop_priv | Reload_priv | Shutdown_priv | Process_priv | File_priv | Grant_priv | References_priv | Index_priv | Alter_priv | Show_db_priv | Super_priv | Create_tmp_table_priv | Lock_tables_priv | Execute_priv | Repl_slave_priv | Repl_client_priv | Create_view_priv | Show_view_priv | Create_routine_priv | Alter_routine_priv | Create_user_priv | Event_priv | Trigger_priv | Create_tablespace_priv | ssl_type | ssl_cipher | x509_issuer | x509_subject | max_questions | max_updates | max_connections | max_user_connections | plugin | authentication_string |
++-----------+------+-------------------------------------------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+--------+-----------------------+
+| localhost | root | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B | Y           | Y           | Y           | Y           | Y           | Y         | Y           | Y             | Y            | Y         | Y          | Y               | Y          | Y          | Y            | Y          | Y                     | Y                | Y            | Y               | Y                | Y                | Y              | Y                   | Y                  | Y                | Y          | Y            | Y                      |          |            |             |              |             0 |           0 |               0 |                    0 |        |                       |
++-----------+------+-------------------------------------------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+--------+-----------------------+
+1 row in set (0.0004 sec)
+
+ MySQL  localhost:3306  test  SQL > select user from mysql.user;
++------+
+| user |
++------+
+| root |
++------+
+1 row in set (0.0003 sec)
+
+ MySQL  localhost:3306  test  SQL >

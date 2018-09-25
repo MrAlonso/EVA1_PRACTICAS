@@ -1,0 +1,283 @@
+MySQL Shell 8.0.12
+
+Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+
+ MySQL  SQL > \connect -c root@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 35
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > select version();
++-----------+
+| version() |
++-----------+
+| 8.0.12    |
++-----------+
+1 row in set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  SQL > create table Personal(
+                              ... nombre
+                              ... apellido
+                              ... departamento
+                              ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'apellido
+departamento' at line 3
+
+ MySQL  localhost:3306 ssl  SQL > \use evaluacion1
+Default schema set to `evaluacion1`.
+Fetching table and column names from `evaluacion1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table Personal(
+                                           ... clave,
+                                           ... nombre,
+                                           ... apellido,
+                                           ... departamento,
+                                           ... \use evaluacion1
+                                           ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',
+nombre,
+apellido,
+departamento,
+\use evaluacion1' at line 2
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table personal(
+                                           ... clave int,
+                                           ... nombre varchar(50),
+                                           ... apellido varchar(50),
+                                           ... departamento varchar(50),
+                                           ... salario float);
+Query OK, 0 rows affected (1.1435 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc personal;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| clave        | int(11)     | YES  |     | NULL    |       |
+| nombre       | varchar(50) | YES  |     | NULL    |       |
+| apellido     | varchar(50) | YES  |     | NULL    |       |
+| departamento | varchar(50) | YES  |     | NULL    |       |
+| salario      | float       | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.0026 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into personal(clave, nombre) values(1, 'Alonso');
+Query OK, 1 row affected (0.2037 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into personal values(2, 'Pedro', 'Perez', 'Sistemas', 10000);
+Query OK, 1 row affected (0.2073 sec)
+                                               insert into personal(clave, nombre) values(3, 'Alonso2'),(4, 'Ana'),(5,' Diana');localhost:3306 ssl  evaluacion1  SQL > insert into personal(clave, nombre) values(3, 'Alonso2'),(4, 'Ana'),(5, D
+Query OK, 3 rows affected (0.1626 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into personal(clave, nombre)
+                                           ... values(6, 'Nepomuceno'),
+                                           ... (7, 'tetra'),
+                                           ... (8, 'escobuto');
+Query OK, 3 rows affected (0.1638 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from personal;
++-------+------------+----------+--------------+---------+
+| clave | nombre     | apellido | departamento | salario |
++-------+------------+----------+--------------+---------+
+|     1 | Alonso     | NULL     | NULL         |    NULL |
+|     2 | Pedro      | Perez    | Sistemas     |   10000 |
+|     3 | Alonso2    | NULL     | NULL         |    NULL |
+|     4 | Ana        | NULL     | NULL         |    NULL |
+|     5 |  Diana     | NULL     | NULL         |    NULL |
+|     6 | Nepomuceno | NULL     | NULL         |    NULL |
+|     7 | tetra      | NULL     | NULL         |    NULL |
+|     8 | escobuto   | NULL     | NULL         |    NULL |
++-------+------------+----------+--------------+---------+
+8 rows in set (0.0008 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc personal;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| clave        | int(11)     | YES  |     | NULL    |       |
+| nombre       | varchar(50) | YES  |     | NULL    |       |
+| apellido     | varchar(50) | YES  |     | NULL    |       |
+| departamento | varchar(50) | YES  |     | NULL    |       |
+| salario      | float       | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.0024 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table personal2(
+                                           ... clave int AUTO_INCREMENT,
+                                           ... nombre varchar(50) not null,
+                                           ... apellido varchar(50) not null,
+                                           ... departamento enum('SISTEMAS','CONTABILIDAD','INHUMANOS','PRODUCCION'),
+                                           ... salario float default 150000);
+ERROR: 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table personal2( clave int PRIMARY KEY NOT NULL AUTO_INCREMENT, nombre varchar(50) not null, apellido varchar(50) not null, departamento enum('SISTEMAS','CONTABILIDAD','INHUMANOS','PRODUCCION'), salario float default 150000);
+Query OK, 0 rows affected (0.9753 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc personal2;
++--------------+----------------------------------------------------------+------+-----+---------+----------------+
+| Field        | Type                                                     | Null | Key | Default | Extra          |
++--------------+----------------------------------------------------------+------+-----+---------+----------------+
+| clave        | int(11)                                                  | NO   | PRI | NULL    | auto_increment |
+| nombre       | varchar(50)                                              | NO   |     | NULL    |                |
+| apellido     | varchar(50)                                              | NO   |     | NULL    |                |
+| departamento | enum('SISTEMAS','CONTABILIDAD','INHUMANOS','PRODUCCION') | YES  |     | NULL    |                |
+| salario      | float                                                    | YES  |     | 150000  |                |
++--------------+----------------------------------------------------------+------+-----+---------+----------------+
+5 rows in set (0.0028 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into personal2 (nombre, apellido) values ('Alonso','Parra');
+Query OK, 1 row affected (0.1827 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from personal2;
++-------+--------+----------+--------------+---------+
+| clave | nombre | apellido | departamento | salario |
++-------+--------+----------+--------------+---------+
+|     1 | Alonso | Parra    | NULL         |  150000 |
++-------+--------+----------+--------------+---------+
+1 row in set (0.0004 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into personal2 (nombre, apellido, departamento)
+                                           ... values('Alfonso','Porras Esparza','SISTEMAS');
+Query OK, 1 row affected (0.1774 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from personal2;
++-------+---------+----------------+--------------+---------+
+| clave | nombre  | apellido       | departamento | salario |
++-------+---------+----------------+--------------+---------+
+|     1 | Alonso  | Parra          | NULL         |  150000 |
+|     2 | Alfonso | Porras Esparza | SISTEMAS     |  150000 |
++-------+---------+----------------+--------------+---------+
+2 rows in set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > ;nsert into personal2 (nombre, apellido, departamento) values('Alfonso','
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > ;
+ MySQL  localhost:3306 ssl  evaluacion1  SQL >
+ MySQL  localhost:3306 ssl  evaluacion1  SQL >
+ MySQL  localhost:3306 ssl  evaluacion1  SQL >
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from personal2;
++-------+---------+----------------+--------------+---------+
+| clave | nombre  | apellido       | departamento | salario |
++-------+---------+----------------+--------------+---------+
+|     1 | Alonso  | Parra          | NULL         |  150000 |
+|     2 | Alfonso | Porras Esparza | SISTEMAS     |  150000 |
++-------+---------+----------------+--------------+---------+
+2 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into personal2 (nombre, apellido, departamento, salario)
+                                           ... values('X','y','z', 5000);
+ERROR: 1265 (01000): Data truncated for column 'departamento' at row 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into personal2 (nombre, apellido, departamento, salario) values('X','y','INHUMANOS', 5000);
+Query OK, 1 row affected (0.1036 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from personal2;
++-------+---------+----------------+--------------+---------+
+| clave | nombre  | apellido       | departamento | salario |
++-------+---------+----------------+--------------+---------+
+|     1 | Alonso  | Parra          | NULL         |  150000 |
+|     2 | Alfonso | Porras Esparza | SISTEMAS     |  150000 |
+|     3 | X       | y              | INHUMANOS    |    5000 |
++-------+---------+----------------+--------------+---------+
+3 rows in set (0.0006 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into personal2 (clave, nombre, apellido) values (3,'','');
+ERROR: 1062 (23000): Duplicate entry '3' for key 'PRIMARY'
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into personal2 (clave, nombre, apellido) values (5,'','');
+Query OK, 1 row affected (0.1661 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from personal2;
++-------+---------+----------------+--------------+---------+
+| clave | nombre  | apellido       | departamento | salario |
++-------+---------+----------------+--------------+---------+
+|     1 | Alonso  | Parra          | NULL         |  150000 |
+|     2 | Alfonso | Porras Esparza | SISTEMAS     |  150000 |
+|     3 | X       | y              | INHUMANOS    |    5000 |
+|     5 |         |                | NULL         |  150000 |
++-------+---------+----------------+--------------+---------+
+4 rows in set (0.0004 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into personal2 (nombre, apellido) values ('','');
+Query OK, 1 row affected (0.1674 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from personal2;
++-------+---------+----------------+--------------+---------+
+| clave | nombre  | apellido       | departamento | salario |
++-------+---------+----------------+--------------+---------+
+|     1 | Alonso  | Parra          | NULL         |  150000 |
+|     2 | Alfonso | Porras Esparza | SISTEMAS     |  150000 |
+|     3 | X       | y              | INHUMANOS    |    5000 |
+|     5 |         |                | NULL         |  150000 |
+|     6 |         |                | NULL         |  150000 |
++-------+---------+----------------+--------------+---------+
+5 rows in set (0.0006 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table Paises(
+                                           ... nombre
+                                           ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table Paises(
+                                           ... nombre varchar(50),
+                                           ... poblacion int,
+                                           ... continente ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table Paises(
+                                           ... clave int,
+                                           ... nombre varchar(50) not null,
+                                           ... poblacion int not null,;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table Paises(
+                                           ... clave int AUTO_INCREMENT,
+                                           ... nombre varchar(50) not null,
+                                           ... poblacion int default 1,
+                                           ... continente enum('Africa','America','Asia','Oceania','Europa'));
+ERROR: 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table Paises( clave int PRIMARY KEY NOT NULL AUTO_INCREMENT, nombre varchar(50) not null, poblacion int default 1, continente enum('Africa','America','Asia','Oceania','Europa'));
+Query OK, 0 rows affected (0.6587 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from personal2;
++-------+---------+----------------+--------------+---------+
+| clave | nombre  | apellido       | departamento | salario |
++-------+---------+----------------+--------------+---------+
+|     1 | Alonso  | Parra          | NULL         |  150000 |
+|     2 | Alfonso | Porras Esparza | SISTEMAS     |  150000 |
+|     3 | X       | y              | INHUMANOS    |    5000 |
+|     5 |         |                | NULL         |  150000 |
+|     6 |         |                | NULL         |  150000 |
++-------+---------+----------------+--------------+---------+
+5 rows in set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc paises;
++------------+----------------------------------------------------+------+-----+---------+----------------+
+| Field      | Type                                               | Null | Key | Default | Extra          |
++------------+----------------------------------------------------+------+-----+---------+----------------+
+| clave      | int(11)                                            | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50)                                        | NO   |     | NULL    |                |
+| poblacion  | int(11)                                            | YES  |     | 1       |                |
+| continente | enum('Africa','America','Asia','Oceania','Europa') | YES  |     | NULL    |                |
++------------+----------------------------------------------------+------+-----+---------+----------------+
+4 rows in set (0.0024 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL >

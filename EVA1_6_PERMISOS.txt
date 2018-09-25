@@ -1,0 +1,237 @@
+MySQL Shell 8.0.12
+
+Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+
+ MySQL  SQL > \use evaluacion1
+Not connected.
+
+ MySQL  SQL > \use evaluacion1
+Not connected.
+
+ MySQL  SQL > \connect -c root@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 45
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use evaluacion1
+Default schema set to `evaluacion1`.
+Fetching table and column names from `evaluacion1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select user from * mysql.user;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* mysql.user' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select user from * mysql.users;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* mysql.users' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select user from mysql.users;
+ERROR: 1146 (42S02): Table 'mysql.users' doesn't exist
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select user from mysql.user;
++------------------+
+| user             |
++------------------+
+| root             |
+| mysql.infoschema |
+| mysql.session    |
+| mysql.sys        |
+| root             |
++------------------+
+5 rows in set (0.0487 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create user 'total_user'@'localhost' identified by '123456';
+Query OK, 0 rows affected (1.3198 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select user from mysql.user;
++------------------+
+| user             |
++------------------+
+| root             |
+| mysql.infoschema |
+| mysql.session    |
+| mysql.sys        |
+| root             |
+| total_user       |
++------------------+
+6 rows in set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > \connect -c total_user@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'total_user@localhost'
+Please provide the password for 'total_user@localhost': ******
+Save password for 'total_user@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 46
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
++--------------------+
+1 row in set (0.0009 sec)
+
+ MySQL  localhost:3306 ssl  SQL > \connect -c root@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 47
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use evaluacion1
+Default schema set to `evaluacion1`.
+Fetching table and column names from `evaluacion1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > set password for 'total_user'@'localhost' = 'perrito';
+Query OK, 0 rows affected (0.3284 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > \connect -c total_user@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'total_user@localhost'
+Please provide the password for 'total_user@localhost': *******
+Save password for 'total_user@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 48
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \connect -c root@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 49
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use evaluacion1
+Default schema set to `evaluacion1`.
+Fetching table and column names from `evaluacion1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > alter user 'total_user'@'localhost' identified by 'perrito';
+Query OK, 0 rows affected (0.2777 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| evaluacion1        |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.0013 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > grant all on evaluacion1.* to 'total_user'@'localhost';
+Query OK, 0 rows affected (0.2278 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > \connect -c total_user@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'total_user@localhost'
+Please provide the password for 'total_user@localhost': *******
+Save password for 'total_user@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 50
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use evaluacion1
+Default schema set to `evaluacion1`.
+Fetching table and column names from `evaluacion1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| evaluacion1        |
+| information_schema |
++--------------------+
+2 rows in set (0.0008 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > \connect -c root@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 51
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use evaluacion1
+Default schema set to `evaluacion1`.
+Fetching table and column names from `evaluacion1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create user 'solo_tabla'@'localhost' identified by 'perrito2';
+Query OK, 0 rows affected (0.1322 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select from * paises;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from * paises' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from paises;
++-------+---------+-----------+------------+
+| clave | nombre  | poblacion | continente |
++-------+---------+-----------+------------+
+|     1 | M MySQL  localhost:3306 ssl  evaluaci
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > 
+ MySQL  localhost:3306 ssl  SQL > \use evaluacion1
+Default schema set to `evaluacion1`.
+Fetching table and column names from `evaluacion1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > grant all on evaluacion1.* to 'solo_tabla'@'localhost';
+Query OK, 0 rows affected (0.1485 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > \connect -c root@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 53
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use evaluacion1
+Default schema set to `evaluacion1`.
+Fetching table and column names from `evaluacion1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create user 'solo_select'@'localhost' identified by 'perrito';
+Query OK, 0 rows affected (0.1074 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > gran select on evaluacion1.paises to 'solo_select'@'localhost';
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'gran select on evaluacion1.paises to 'solo_select'@'localhost'' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > grant select on evaluacion1.paises to 'solo_select'@'localhost';
+Query OK, 0 rows affected (0.1609 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL >

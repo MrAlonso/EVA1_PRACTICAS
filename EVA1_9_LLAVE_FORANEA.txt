@@ -1,0 +1,269 @@
+MySQL Shell 8.0.12
+
+Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+
+ MySQL  SQL > \connect -c root@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use evaluacion1
+Default schema set to `evaluacion1`.
+Fetching table and column names from `evaluacion1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table factura(
+                                           ... no_factura int auto_increment primary key;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table factura(
+                                           ... no_factura int auto_increment primary key,
+                                           ... fecha_compra datetime,
+                                           ... no_cliente int,
+                                           ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table clientes(
+                                           ... no_cliente int auto_increment primary key,
+                                           ... nombre varchar(50),
+                                           ... apellido varchar(50),
+                                           ... RFC varchar(13),
+                                           ... direccion varchar(100),
+                                           ... no_telefono varchar(50),
+                                           ... celular varchar(50));
+Query OK, 0 rows affected (0.9531 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc clientes;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| no_cliente  | int(11)      | NO   | PRI | NULL    | auto_increment |
+| nombre      | varchar(50)  | YES  |     | NULL    |                |
+| apellido    | varchar(50)  | YES  |     | NULL    |                |
+| RFC         | varchar(13)  | YES  |     | NULL    |                |
+| direccion   | varchar(100) | YES  |     | NULL    |                |
+| no_telefono | varchar(50)  | YES  |     | NULL    |                |
+| celular     | varchar(50)  | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.0028 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table productos(
+                                           ... no_producto int auto_increment primary key,
+                                           ... nombre varchar(50),
+                                           ... precio float);
+Query OK, 0 rows affected (0.8023 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table facturas(
+                                           ... no_factura int auto_increment primary key,
+                                           ... fecha_compra datetime,
+                                           ... no_cliente int,
+                                           ... REFERENCES clientes(no_cliente) on delete restrict on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REFERENCES clientes(no_cliente) on delete restrict on update cascade)' at line 5                  create table facturas( no_factura int auto_increment primary key, fecha_compra datetime, REFERENCES clientes(no_cliente) on delete restrict on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REFERENCES clientes(no_cliente) on delete restrict on update cascade)' at line 1valuacion1  SQL > create table facturas( no_factura int auto_increment primary key, fecha_compra datetime, REFERENCES clientes(no_cliente) on delete restrict on update cascade);
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table facturas( no_factura int auto_increment primary key, fecha_compra datetime, no_cliente int REFERENCES clientes(no_cliente) on delete restrict on update cascade);
+Query OK, 0 rows affected (0.5948 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc clientes;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| no_cliente  | int(11)      | NO   | PRI | NULL    | auto_increment |
+| nombre      | varchar(50)  | YES  |     | NULL    |                |
+| apellido    | varchar(50)  | YES  |     | NULL    |                |
+| RFC         | varchar(13)  | YES  |     | NULL    |                |
+| direccion   | varchar(100) | YES  |     | NULL    |                |
+| no_telefono | varchar(50)  | YES  |     | NULL    |                |
+| celular     | varchar(50)  | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.0020 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into clientes(nombre, apellido)
+                                           ... values('Pedro','Pica');
+Query OK, 1 row affected (0.1667 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from clientes;
++------------+--------+----------+------+-----------+-------------+---------+
+| no_cliente | nombre | apellido | RFC  | direccion | no_telefono | celular |
++------------+--------+----------+------+-----------+-------------+---------+
+|          1 | Pedro  | Pica     | NULL | NULL      | NULL        | NULL    |
++------------+--------+----------+------+-----------+-------------+---------+
+1 row in set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc facturas;
++--------------+----------+------+-----+---------+----------------+
+| Field        | Type     | Null | Key | Default | Extra          |
++--------------+----------+------+-----+---------+----------------+
+| no_factura   | int(11)  | NO   | PRI | NULL    | auto_increment |
+| fecha_compra | datetime | YES  |     | NULL    |                |
+| no_cliente   | int(11)  | YES  |     | NULL    |                |
++--------------+----------+------+-----+---------+----------------+
+3 rows in set (0.0023 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into facturas(fecha_compra, no_cliente)
+                                           ... values('2018-09-12',1);
+Query OK, 1 row affected (0.1175 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into facturas(fecha_compra, no_cliente) values('2018-09-12',2);
+Query OK, 1 row affected (0.1631 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas
+                                           ... ;
++------------+---------------------+------------+
+| no_factura | fecha_compra        | no_cliente |
++------------+---------------------+------------+
+|          1 | 2018-09-12 00:00:00 |          1 |
+|          2 | 2018-09-12 00:00:00 |          2 |
++------------+---------------------+------------+
+2 rows in set (0.0006 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc clientes;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| no_cliente  | int(11)      | NO   | PRI | NULL    | auto_increment |
+| nombre      | varchar(50)  | YES  |     | NULL    |                |
+| apellido    | varchar(50)  | YES  |     | NULL    |                |
+| RFC         | varchar(13)  | YES  |     | NULL    |                |
+| direccion   | varchar(100) | YES  |     | NULL    |                |
+| no_telefono | varchar(50)  | YES  |     | NULL    |                |
+| celular     | varchar(50)  | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.0021 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > update clientes
+                                           ... set
+                                           ... no_cliente = 5
+                                           ... where no_cliente = 1;
+Query OK, 1 row affected (0.1975 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from clientes;
++------------+--------+----------+------+-----------+-------------+---------+
+| no_cliente | nombre | apellido | RFC  | direccion | no_telefono | celular |
++------------+--------+----------+------+-----------+-------------+---------+
+|          5 | Pedro  | Pica     | NULL | NULL      | NULL        | NULL    |
++------------+--------+----------+------+-----------+-------------+---------+
+1 row in set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas;
++------------+---------------------+------------+
+| no_factura | fecha_compra        | no_cliente |
++------------+---------------------+------------+
+|          1 | 2018-09-12 00:00:00 |          1 |
+|          2 | 2018-09-12 00:00:00 |          2 |
++------------+---------------------+------------+
+2 rows in set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > *999-
+                                           ... \sql4---
+                                           ... \sql-
+                                           ... 6-+-
+                                           ... -+
+                                           ... -+4-
+                                           ... +;+
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*999-
+\sql4-
+\sql-
+6-+-
+-+
+-+4-
++' at line 1
+
+                                           ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > alter table facturas(
+                                           ... add constraint foreing key (no_cliente)
+                                           ... reference clientes(no_cliente) on delete restrict on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(
+add constraint foreing key (no_cliente)
+reference clientes(no_cliente) on dele' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > alter table facturas( add constraint foreing key (no_cliente) references clientes(no_cliente) on delete restrict on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '( add constraint foreing key (no_cliente) references clientes(no_cliente) on del' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > delete from facturas;
+Query OK, 2 rows affected (0.2360 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas;
+Empty set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > alter table facturas add constraint foreing key (no_cliente) references clientes(no_cliente) on delete restrict on update cascade)
+                                           ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'key (no_cliente) references clientes(no_cliente) on delete restrict on update ca' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > alter table facturas add constraint foreing key (no_cliente) references clientes(no_cliente) on delete restrict on update cascade;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'key (no_cliente) references clientes(no_cliente) on delete restrict on update ca' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > alter table facturas
+                                           ... add constraint foreign key
+                                           ... (no_cliente)
+                                           ... references clientes(no_cliente) on delete restrict on update cascade;
+Query OK, 0 rows affected (2.4725 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas;
+Empty set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc facturas;
++--------------+----------+------+-----+---------+----------------+
+| Field        | Type     | Null | Key | Default | Extra          |
++--------------+----------+------+-----+---------+----------------+
+| no_factura   | int(11)  | NO   | PRI | NULL    | auto_increment |
+| fecha_compra | datetime | YES  |     | NULL    |                |
+| no_cliente   | int(11)  | YES  | MUL | NULL    |                |
++--------------+----------+------+-----+---------+----------------+
+3 rows in set (0.0021 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into facturas(fecha_compra, no_cliente)
+                                           ... values(2018-09-12',5);
+                                           ...
+                                           ... ;
+                                           ... show tables;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '',5);
+show tables' at line 2
+
+                                           ... desc tables;
+ERROR: 1146 (42S02): Table 'evaluacion1.tables' doesn't exist
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into facturas(fecha_compra, no_cliente)
+                                           ... values ('2018-09-12',5);
+Query OK, 1 row affected (0.1227 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from clientes;
++------------+--------+----------+------+-----------+-------------+---------+
+| no_cliente | nombre | apellido | RFC  | direccion | no_telefono | celular |
++------------+--------+----------+------+-----------+-------------+---------+
+|          5 | Pedro  | Pica     | NULL | NULL      | NULL        | NULL    |
++------------+--------+----------+------+-----------+-------------+---------+
+1 row in set (0.0019 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from factura;
+ERROR: 1146 (42S02): Table 'evaluacion1.factura' doesn't exist
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas;
++------------+---------------------+------------+
+| no_factura | fecha_compra        | no_cliente |
++------------+---------------------+------------+
+|          3 | 2018-09-12 00:00:00 |          5 |
++------------+---------------------+------------+
+1 row in set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL >

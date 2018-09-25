@@ -1,0 +1,256 @@
+MySQL Shell 8.0.12
+
+Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+
+ MySQL  SQL > \connect -c root@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 9
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > select * from facturas;
+ERROR: 1046 (3D000): No database selected
+
+ MySQL  localhost:3306 ssl  SQL > \use evaluacion1
+Default schema set to `evaluacion1`.
+Fetching table and column names from `evaluacion1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas;
++------------+---------------------+------------+
+| no_factura | fecha_compra        | no_clientecreate table factura_detalles( clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint foreign key productos(no_producto), cantidad int, descuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'constraint foreign key facturas(no_factura), no_producto int constraint foreign ' at line 1 int, descuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ign key productos(no_producto), cantidad int, descuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > ;scuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float); clave int auto_increment primary key, no_factura int constraint foreign key facturas(no_factura), no_producto int constraint fore
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > escuento float, precio float);
+ MySQL  localhost:3306 ssl  evaluacion1  SQL >
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > :
+                                           ... show tables;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':
+show tables' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table factura_detalles(
+                                           ... clave int auto_increment primary key,
+                                           ... no_factura int,
+                                           ... no_producto int,
+                                           ... cantidad int,
+                                           ... descuento float,
+                                           ... precio float,
+                                           ... foreign key (no_factura) references facturas(no_factura),
+                                           ... foreign key (no_producto) references productos(no_producto));
+Query OK, 0 rows affected (0.8870 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas;
++------------+---------------------+------------+
+| no_factura | fecha_compra        | no_cliente |
++------------+---------------------+------------+
+|          3 | 2018-09-12 00:00:00 |          5 |
++------------+---------------------+------------+
+1 row in set (0.0018 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from productos;
+Empty set (0.0016 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc productos;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| no_producto | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre      | varchar(50) | YES  |     | NULL    |                |
+| precio      | float       | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0022 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into productos(nombre, precio) values('Manzanas',15),
+                                           ... ('Peras',20),('Cocos',25),('Piedras',30);
+Query OK, 4 rows affected (0.2679 sec)
+
+Records: 4  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > drop table factura_detalles;
+Query OK, 0 rows affected (0.5410 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table factura_detalles( clave int auto_increment primary key, no_factura int, no_producto int, cantidad int, descuento float, precio float, foreign key (no_factura) references facturas(no_factura), foreign key (no_producto) references productos(no_producto))
+                                           ... ;
+Query OK, 0 rows affected (0.8578 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > drop table factura_detalles;
+Query OK, 0 rows affected (0.4294 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table factura_detalles( clave int auto_increment primary key, no_factura int, no_producto int, cantidad int, descuento float, precio float, foreign key (no_factura) references facturas(no_factura) on update cascade on delete cascade, foreign key (no_producto) references productor (no_producto) on update cascade on delete restrict();
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '()' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table factura_detalles( clave int auto_increment primary key, no_factura int, no_producto int, cantidad int, descuento float, precio float, foreign key (no_factura) references facturas(no_factura) on update cascade on delete cascade, foreign key (no_producto) references productor (no_producto) on update cascade on delete restrict);
+ERROR: 1824 (HY000): Failed to open the referenced table 'productor'
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > create table factura_detalles( clave int auto_increment primary key, no_factura int, no_producto int, cantidad int, descuento float, precio float, foreign key (no_factura) references facturas(no_factura) on update cascade on delete cascade, foreign key (no_producto) references productos (no_producto) on update cascade on delete restrict);
+Query OK, 0 rows affected (0.8025 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas;
++------------+---------------------+------------+
+| no_factura | fecha_compra        | no_cliente |
++------------+---------------------+------------+
+|          3 | 2018-09-12 00:00:00 |          5 |
++------------+---------------------+------------+
+1 row in set (0.0016 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into factura_detalles(
+                                           ... no_factura, no_producto, cantidad, precio),
+                                           ... values(3,,1,100,
+                                           ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',
+values(3,,1,100,' at line 2
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into factura_detalles( no_factura, no_producto, cantidad, precio), values(3,1,100,15),(3,2,20,20),(3,3,50,30);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', values(3,1,100,15),(3,2,20,20),(3,3,50,30)' at line 1
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > insert into factura_detalles( no_factura, no_producto, cantidad, precio) values(3,1,100,15),(3,2,20,20),(3,3,50,30);
+Query OK, 3 rows affected (0.2572 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from factura_detalles;
++-------+------------+-------------+----------+-----------+--------+
+| clave | no_factura | no_producto | cantidad | descuento | precio |
++-------+------------+-------------+----------+-----------+--------+
+|     1 |          3 |           1 |      100 |      NULL |     15 |
+|     2 |          3 |           2 |       20 |      NULL |     20 |
+|     3 |          3 |           3 |       50 |      NULL |     30 |
++-------+------------+-------------+----------+-----------+--------+
+3 rows in set (0.0292 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas;
++------------+---------------------+------------+
+| no_factura | fecha_compra        | no_cliente |
++------------+---------------------+------------+
+|          3 | 2018-09-12 00:00:00 |          5 |
++------------+---------------------+------------+
+1 row in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > update facturas
+                                           ... set
+                                           ... no_factura=100
+                                           ... where no_factura =3;
+Query OK, 1 row affected (0.1647 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facture;
+ERROR: 1146 (42S02): Table 'evaluacion1.facture' doesn't exist
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from factura;
+ERROR: 1146 (42S02): Table 'evaluacion1.factura' doesn't exist
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas;
++------------+---------------------+------------+
+| no_factura | fecha_compra        | no_cliente |
++------------+---------------------+------------+
+|        100 | 2018-09-12 00:00:00 |          5 |
++------------+---------------------+------------+
+1 row in set (0.0006 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facura_detalles;
+ERROR: 1146 (42S02): Table 'evaluacion1.facura_detalles' doesn't exist
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from factura_detalles;
++-------+------------+-------------+----------+-----------+--------+
+| clave | no_factura | no_producto | cantidad | descuento | precio |
++-------+------------+-------------+----------+-----------+--------+
+|     1 |        100 |           1 |      100 |      NULL |     15 |
+|     2 |        100 |           2 |       20 |      NULL |     20 |
+|     3 |        100 |           3 |       50 |      NULL |     30 |
++-------+------------+-------------+----------+-----------+--------+
+3 rows in set (0.0005 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > show tables;
++-----------------------+
+| Tables_in_evaluacion1 |
++-----------------------+
+| carrera               |
+| clientes              |
+| compras               |
+| estudiantes           |
+| factura_detalles      |
+| facturas              |
+| jobs                  |
+| materias              |
+| nueva_carrera         |
+| nueva_carrerarota     |
+| paises                |
+| personal              |
+| personal2             |
+| productos             |
++-----------------------+
+14 rows in set (0.0019 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc estudiantes;
++------------------+--------------+------+-----+---------+-------+
+| Field            | Type         | Null | Key | Default | Extra |
++------------------+--------------+------+-----+---------+-------+
+| no_control       | varchar(10)  | NO   | PRI | NULL    |       |
+| nombre           | varchar(50)  | YES  |     | NULL    |       |
+| apellido_materno | varchar(50)  | YES  |     | NULL    |       |
+| apellido_paterno | varchar(50)  | YES  |     | NULL    |       |
+| direccion        | varchar(100) | YES  |     | NULL    |       |
+| fecha_nacimiento | date         | YES  |     | NULL    |       |
+| lugar_nacimiento | varchar(50)  | YES  |     | NULL    |       |
+| pais_nacimiento  | varchar(50)  | YES  |     | NULL    |       |
+| genero           | varchar(50)  | YES  |     | NULL    |       |
+| no_telefono      | varchar(50)  | YES  |     | NULL    |       |
++------------------+--------------+------+-----+---------+-------+
+10 rows in set (0.0021 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > desc carrera;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| nombre    | varchar(50) | YES  |     | NULL    |       |
+| creditos  | int(11)     | YES  |     | NULL    |       |
+| semestres | int(11)     | YES  |     | NULL    |       |
+| area      | varchar(50) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.0018 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from factura_detalles;
++-------+------------+-------------+----------+-----------+--------+
+| clave | no_factura | no_producto | cantidad | descuento | precio |
++-------+------------+-------------+----------+-----------+--------+
+|     1 |        100 |           1 |      100 |      NULL |     15 |
+|     2 |        100 |           2 |       20 |      NULL |     20 |
+|     3 |        100 |           3 |       50 |      NULL |     30 |
++-------+------------+-------------+----------+-----------+--------+
+3 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL > select * from facturas;
++------------+---------------------+------------+
+| no_factura | fecha_compra        | no_cliente |
++------------+---------------------+------------+
+|        100 | 2018-09-12 00:00:00 |          5 |
++------------+---------------------+------------+
+1 row in set (0.0004 sec)
+
+ MySQL  localhost:3306 ssl  evaluacion1  SQL >
